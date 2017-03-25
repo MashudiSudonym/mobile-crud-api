@@ -78,8 +78,15 @@ public class ViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Value> call, Throwable t) {
-
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ViewActivity.this, "Jaringan Error!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataMahasiswa();
     }
 }

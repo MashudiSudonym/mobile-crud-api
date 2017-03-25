@@ -1,6 +1,7 @@
 package sudonym.anggertugas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     private Context context;
-    private List<Result> results = new ArrayList<>();
+    private List<Result> results;
 
     public RecyclerViewAdapter(Context context, List<Result> results) {
         this.context = context;
@@ -49,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return results.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.textNama) TextView textViewNama;
         @BindView(R.id.textAlamat) TextView textViewAlamat;
@@ -57,6 +58,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            String nama = textViewNama.getText().toString();
+            String alamat = textViewAlamat.getText().toString();
+
+            Intent i = new Intent(context, UpdateActivity.class);
+            i.putExtra("nama", nama);
+            i.putExtra("alamat", alamat);
+            context.startActivity(i);
         }
     }
 }
