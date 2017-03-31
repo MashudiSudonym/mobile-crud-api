@@ -11,48 +11,30 @@
     android:orientation="vertical"
     tools:context="sudonym.anggertugas.UpdateActivity">
 
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:id="@+id/editTextId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="@string/id"/>
 
-        <EditText
-            android:id="@+id/editTextId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/id"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:id="@+id/editTextNama"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:hint="@string/nama"/>
 
-        <EditText
-            android:id="@+id/editTextNama"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:hint="@string/nama"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:id="@+id/editTextAlamat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/editTextAlamat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:hint="@string/alamat"/>
-
-    </android.support.design.widget.TextInputLayout>
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:hint="@string/alamat"/>
 
     <Button
         android:id="@+id/buttonUbah"

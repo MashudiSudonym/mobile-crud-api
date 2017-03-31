@@ -1,9 +1,12 @@
 package sudonym.anggertugas;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,9 +43,9 @@ public class UpdateActivity extends AppCompatActivity {
 
         //mengambil data dari edittext
 
-        String id = editTextId.getText().toString();
-        String nama = editTextNama.getText().toString();
-        String alamat = editTextAlamat.getText().toString();
+        Integer id = Integer.valueOf(editTextId.getText().toString());
+        final String nama = editTextNama.getText().toString();
+        final String alamat = editTextAlamat.getText().toString();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -53,7 +56,7 @@ public class UpdateActivity extends AppCompatActivity {
         call.enqueue(new Callback<Value>() {
             @Override
             public void onResponse(Call<Value> call, Response<Value> response) {
-                String message = "cek data ";
+                String message = "cek data " + nama + alamat;
                 progress.dismiss();
                 Toast.makeText(UpdateActivity.this, message, Toast.LENGTH_SHORT).show();
             }
@@ -76,9 +79,11 @@ public class UpdateActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Ubah Data");
 
         Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         String nama = intent.getStringExtra("nama");
         String alamat = intent.getStringExtra("alamat");
 
+        editTextId.setText(id);
         editTextNama.setText(nama);
         editTextAlamat.setText(alamat);
     }
@@ -89,7 +94,52 @@ public class UpdateActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.action_delete:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("Peringatan");
+                alertDialogBuilder
+                        .setMessage("Apakah Anda yakin ingin mengapus data ini?")
+                        .setCancelable(false)
+                        .setPositiveButton("Hapus",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int Id) {
+
+                                Integer id = Integer.valueOf(editTextId.getText().toString());
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(URL)
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+                                RegisterAPI api = retrofit.create(RegisterAPI.class);
+                                Call<Value> call = api.hapus(id);
+                                call.enqueue(new Callback<Value>() {
+                                    @Override
+                                    public void onResponse(Call<Value> call, Response<Value> response) {
+                                        String message = "DATA TERHAPUS";
+                                        Toast.makeText(UpdateActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Value> call, Throwable t) {
+                                        t.printStackTrace();
+                                        Toast.makeText(UpdateActivity.this, "Jaringan Error!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Batal",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_delete, menu);
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package sudonym.anggertugas;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,6 +49,31 @@ public class ViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(viewAdapter);
 
         loadDataMahasiswa();
+
+        /*menambah warna pada SwipeRefreshLayout*/
+        final SwipeRefreshLayout dorefresh = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        dorefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        /*event ketika widget dijalankan*/
+        dorefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh() {
+                refreshItem();
+            }
+
+            void refreshItem() {
+                loadDataMahasiswa();
+                onItemLoad();
+            }
+
+            void onItemLoad() {
+                dorefresh.setRefreshing(false);
+            }
+
+        });
     }
 
     @Override

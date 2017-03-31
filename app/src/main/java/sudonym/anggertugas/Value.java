@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Value {
 
-    private List<Result> result;
+    public List<Result> result;
 
     public List<Result> getResult(){
         return result;
